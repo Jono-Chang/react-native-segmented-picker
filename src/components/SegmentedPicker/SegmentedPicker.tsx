@@ -612,11 +612,12 @@ export default class SegmentedPicker extends Component<Props, State> {
    * @param {UIPickerValueChangeEvent}
    * @return {void}
    */
-  private uiPickerValueChange = (
+  private uiPickerValueChange = async (
     { nativeEvent: { column, value } }: UIPickerValueChangeEvent,
-  ): void => {
+  ): Promise<void> => {
     const { onValueChange } = this.props;
-    onValueChange({ column, value }, this.selectionChanges);
+    const selections = { ...(await this.getCurrentSelections()) };
+    onValueChange({ column, value }, selections);
   };
 
   render() {
