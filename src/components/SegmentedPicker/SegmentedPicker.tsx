@@ -62,7 +62,7 @@ export interface Props {
   selectionBorderColor: string;
   backgroundColor: string;
   // Events
-  onValueChange: (event: SelectionEvent) => void;
+  onValueChange: (event: SelectionEvent, selections: Selections) => void;
   onCancel: (event: Selections) => void,
   onConfirm: (event: Selections) => void,
 }
@@ -253,7 +253,7 @@ export default class SegmentedPicker extends Component<Props, State> {
         [column]: items[index].value,
       };
       if (emitEvent) {
-        onValueChange({ column, value: items[index].value });
+        onValueChange({ column, value: items[index].value }, this.selectionChanges);
       }
     }
   };
@@ -616,7 +616,7 @@ export default class SegmentedPicker extends Component<Props, State> {
     { nativeEvent: { column, value } }: UIPickerValueChangeEvent,
   ): void => {
     const { onValueChange } = this.props;
-    onValueChange({ column, value });
+    onValueChange({ column, value }, this.selectionChanges);
   };
 
   render() {

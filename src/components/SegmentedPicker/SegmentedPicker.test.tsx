@@ -192,6 +192,9 @@ describe('SegmentedPicker', () => {
       column: 'col_1',
       value: 'harry',
     });
+    expect(onChangeCallback.mock.calls[0][1]).toStrictEqual({
+      col_1: 'harry',
+    });
   });
 
   it('Can switch selected items by value.', () => {
@@ -225,6 +228,9 @@ describe('SegmentedPicker', () => {
       column: 'col_1',
       value: 'francesca',
     });
+    expect(onChangeCallback.mock.calls[0][1]).toStrictEqual({
+      col_1: 'francesca',
+    });
   });
 
   it('Can switch selected items by list index.', () => {
@@ -257,6 +263,9 @@ describe('SegmentedPicker', () => {
     expect(onChangeCallback.mock.calls[0][0]).toStrictEqual({
       column: 'col_1',
       value: 'georgia',
+    });
+    expect(onChangeCallback.mock.calls[0][1]).toStrictEqual({
+      col_1: 'georgia',
     });
   });
 });
