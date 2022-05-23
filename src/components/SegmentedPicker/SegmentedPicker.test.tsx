@@ -161,9 +161,22 @@ describe('SegmentedPicker', () => {
       .toBe(`${COL_1}_${column.items[1].key}`);
   });
 
-  it('Can switch selected items by label name.', () => {
+  it('Can switch selected items by label name.', (done) => {
     const ref: React.RefObject<SegmentedPicker> = React.createRef();
-    const onChangeCallback = jest.fn();
+    const onChangeCallback = (event, selections) => {
+      try {
+        expect(event).toStrictEqual({
+          column: 'col_1',
+          value: 'harry',
+        });
+        expect(selections).toStrictEqual({
+          col_1: expect.any(String),
+        });
+        done();
+      } catch (error) {
+        done(error);
+      }
+    };
     renderer.create(
       <SegmentedPicker
         ref={ref}
@@ -185,21 +198,25 @@ describe('SegmentedPicker', () => {
     );
     jest.advanceTimersByTime(ANIMATION_TIME);
     ref.current.selectLabel('Adam', 'col_1'); // <-- already selected
-    expect(onChangeCallback).not.toBeCalled();
     ref.current.selectLabel('Harry', 'col_1');
-    expect(onChangeCallback).toBeCalledTimes(1);
-    expect(onChangeCallback.mock.calls[0][0]).toStrictEqual({
-      column: 'col_1',
-      value: 'harry',
-    });
-    expect(onChangeCallback.mock.calls[0][1]).toStrictEqual({
-      col_1: 'harry',
-    });
   });
 
-  it('Can switch selected items by value.', () => {
+  it('Can switch selected items by value.', (done) => {
     const ref: React.RefObject<SegmentedPicker> = React.createRef();
-    const onChangeCallback = jest.fn();
+    const onChangeCallback = (event, selections) => {
+      try {
+        expect(event).toStrictEqual({
+          column: 'col_1',
+          value: 'francesca',
+        });
+        expect(selections).toStrictEqual({
+          col_1: expect.any(String),
+        });
+        done();
+      } catch (error) {
+        done(error);
+      }
+    };
     renderer.create(
       <SegmentedPicker
         ref={ref}
@@ -221,21 +238,25 @@ describe('SegmentedPicker', () => {
     );
     jest.advanceTimersByTime(ANIMATION_TIME);
     ref.current.selectValue('adam', 'col_1'); // <-- already selected
-    expect(onChangeCallback).not.toBeCalled();
     ref.current.selectValue('francesca', 'col_1');
-    expect(onChangeCallback).toBeCalledTimes(1);
-    expect(onChangeCallback.mock.calls[0][0]).toStrictEqual({
-      column: 'col_1',
-      value: 'francesca',
-    });
-    expect(onChangeCallback.mock.calls[0][1]).toStrictEqual({
-      col_1: 'francesca',
-    });
   });
 
-  it('Can switch selected items by list index.', () => {
+  it('Can switch selected items by list index.', (done) => {
     const ref: React.RefObject<SegmentedPicker> = React.createRef();
-    const onChangeCallback = jest.fn();
+    const onChangeCallback = (event, selections) => {
+      try {
+        expect(event).toStrictEqual({
+          column: 'col_1',
+          value: 'georgia',
+        });
+        expect(selections).toStrictEqual({
+          col_1: expect.any(String),
+        });
+        done();
+      } catch (error) {
+        done(error);
+      }
+    };
     renderer.create(
       <SegmentedPicker
         ref={ref}
@@ -257,15 +278,6 @@ describe('SegmentedPicker', () => {
     );
     jest.advanceTimersByTime(ANIMATION_TIME);
     ref.current.selectIndex(0, 'col_1'); // <-- already selected
-    expect(onChangeCallback).not.toBeCalled();
     ref.current.selectIndex(3, 'col_1');
-    expect(onChangeCallback).toBeCalledTimes(1);
-    expect(onChangeCallback.mock.calls[0][0]).toStrictEqual({
-      column: 'col_1',
-      value: 'georgia',
-    });
-    expect(onChangeCallback.mock.calls[0][1]).toStrictEqual({
-      col_1: 'georgia',
-    });
   });
 });

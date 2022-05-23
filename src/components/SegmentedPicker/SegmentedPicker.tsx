@@ -224,12 +224,12 @@ export default class SegmentedPicker extends Component<Props, State> {
    * @param {boolean = true} emitEvent: Specify whether to call the `onValueChange` event.
    * @return {void}
    */
-  selectIndex = (
+  selectIndex = async (
     index: number,
     column: string,
     animated: boolean = true,
     emitEvent: boolean = true,
-  ): void => {
+  ): Promise<void> => {
     if (this.isNative()) {
       this.uiPickerManager.selectIndex(index, column, animated);
       return;
@@ -253,7 +253,8 @@ export default class SegmentedPicker extends Component<Props, State> {
         [column]: items[index].value,
       };
       if (emitEvent) {
-        onValueChange({ column, value: items[index].value }, this.selectionChanges);
+        const selections = { ...(await this.getCurrentSelections()) };
+        onValueChange({ column, value: items[index].value }, selections);
       }
     }
   };
